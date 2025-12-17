@@ -1,14 +1,18 @@
-1. Create Environment
-   python -m venv <dir>
+## 1. Create Environment
 
-2. Activate environment
-   Encontrar archivo de nombre active
+> python -m venv <dir>
 
-   .\venv\Scripts\activate
+## 2. Activate environment
 
-3. Install FastApi
-   pip install fastapi[all]
+Encontrar archivo de nombre active
 
-4. Recommended VS Code extensions
-   > ruff
-   > Error Lens
+> .\venv\Scripts\activate
+
+## 3. Install FastApi
+
+> pip install fastapi[all]
+
+## 4. Recommended VS Code extensions
+
+-ruff
+-Error Lens
