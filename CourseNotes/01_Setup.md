@@ -1,6 +1,6 @@
 ## 1. Create Environment
 
-> python -m venv <dir>
+> python -m venv < dir >
 
 ## 2. Activate environment
 
@@ -15,4 +15,5 @@ Encontrar archivo de nombre active
 ## 4. Recommended VS Code extensions
 
 -ruff
+
 -Error Lens
