@@ -15,7 +15,14 @@ We need to have a method that returns some information, let's say for example
 
 ## 3. Run the server in CLI
 
-> fastapi dev < app dir >
+- The original command is > uvicorn main:app --reload
+
+  - uvicorn: It's the engine to run the server
+  - main: Refers to the file in which the python code is located
+  - app: It's the instance of the variable assigned to FastApi()
+  - --Reload: Option to rebot the server on every change
+
+- This is an abstraction layer > fastapi dev < app dir >
 
 ## 4. Documentations
 
