@@ -12,16 +12,16 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.get("/relative_route/{variable}")
-get_something(variable) {}
+def get_something(variable) {}
 ```
 
 Note:
 
 It is possible to force the data type parameter on the method by using hint. For example
-`get_something(variable: int) {}`
+`def get_something(variable: int) {}`
 
 Also, it is possible to hint the return type of a method:
-`get_something() -> dict[str, str] {}`
+`def get_something() -> dict[str, str] {}`
 
 ## 3. Run the server in CLI
 
