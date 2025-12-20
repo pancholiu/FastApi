@@ -85,6 +85,11 @@ def submit_shipment(weight: float, data: dict[str, str]) -> dict[str, Any]:
     return shipments[new_id]
 
 
+@app.get("/shipment/{field}")
+def get_shipment_field(field: str, id: int) -> Any:
+    return shipments[id][field]
+
+
 @app.get("/scalar", include_in_schema=False)
 def get_scalar():
     return get_scalar_api_reference(

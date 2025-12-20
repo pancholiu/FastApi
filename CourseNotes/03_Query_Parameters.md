@@ -21,10 +21,10 @@ With this method, if the user input in the url, it is also possible to pass a pa
 
 ## 2. In a POST request
 
-If the same variable, it is sent via body and via query param
+If the same variable, it is sent via body and via path param
 
-- If the variable is explixitly request as a method param, it is going to take the value from the query param
-- If not explicitly declared as method param, it will try to take the value from the body
+- If the variable is explixitly request as a param in the method, it is going to take the value from the path param
+- If not explicitly declared as param in the method, it will try to take the value from the body
 
 > In this example, the variable weight is explicitly declared
 > If we use a dict and then get a variable from there, it is not considered an explicit declaration
@@ -33,3 +33,9 @@ If the same variable, it is sent via body and via query param
 > def submit_shipment(weight: float, data: dict[str, str])
 > content = data["content"]
 > ```
+
+> DEFINITIONS
+> Path parameter: The ones indicated in the URL
+> Query parameters: The ones indicated in the body
+
+Note: It is not recommended mix those both parameters in a method
