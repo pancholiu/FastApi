@@ -8,6 +8,7 @@ app = FastAPI()
 def get_shipment(id: int) -> dict[str,  Any]:
     return {
         "id": id,
+        "weight": 1.2,
         "content": "wooden table",
         "status": "in transit"
     }
