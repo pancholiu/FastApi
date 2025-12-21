@@ -25,3 +25,9 @@ With this method, if the user input in the url, it is also possible to pass a pa
 >
 > - Path parameter: The ones indicated in the URL that are pointing to a specific resource in the system, they are coming before the question mark
 > - Query parameters: They are more like filters or additional information that doesn't identify a unique resource, but helps to refine a search or an action, like the color or size of a product. They are coming after the question mark
+
+## 3. HTTP methods
+
+- Get: Retrieve data
+- Post: Create data
+- Put: Update the entire record
