@@ -90,6 +90,16 @@ def get_shipment_field(field: str, id: int) -> Any:
     return shipments[id][field]
 
 
+@app.put("/shipment")
+def shipment_update(id: int, content: str, weight: float, status: str) -> dict[str, Any]:
+    shipments[id] = {
+        "content": content,
+        "weight": weight,
+        "status": status
+    }
+    return shipments[id]
+
+
 @app.get("/scalar", include_in_schema=False)
 def get_scalar():
     return get_scalar_api_reference(
