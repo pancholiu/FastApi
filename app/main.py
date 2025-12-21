@@ -110,6 +110,15 @@ def patch_shipment(id: int, body: dict[str, Any]):
     return shipments[id]
 
 
+@app.delete("/shipment")
+def delete_shipment(id: int) -> dict[str, str]:
+    deleted_shipment = shipments.pop(id)
+
+    return {
+        "detail": f"Shipment {id} has been deleted"
+    }
+
+
 @app.get("/scalar", include_in_schema=False)
 def get_scalar():
     return get_scalar_api_reference(
