@@ -2,6 +2,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, status
 from scalar_fastapi import get_scalar_api_reference
 from .schemas import Shipment
+from enum import Enum
 
 app = FastAPI()
 
@@ -42,6 +43,13 @@ shipments = {
         "status": "cancelled"
     }
 }
+
+
+class ShipmentStatus(str, Enum):
+    placed = "placed"
+    in_transit = "in_transit"
+    out_for_delivery = "out_for_delivery"
+    delivered = "delivered"
 
 
 @app.get("/shipment/latest")
@@ -97,7 +105,7 @@ def shipment_update(id: int, content: str, weight: float, status: str) -> dict[s
 
 
 @app.patch("/shipment")
-def patch_shipment(id: int, body: dict[str, Any]):
+def update_shipment(id: int, body: dict[str, ShipmentStatus]):
     shipment = shipments[id]
 
     shipment.update(body)
