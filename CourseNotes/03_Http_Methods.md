@@ -31,3 +31,5 @@ With this method, if the user input in the url, it is also possible to pass a pa
 - Get: Retrieve data
 - Post: Create data
 - Put: Update the entire record
+- Patch: Only update part of ther records
+- Delete: Deletes a record
