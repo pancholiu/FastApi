@@ -97,6 +97,16 @@ def shipment_update(id: int, content: str, weight: float, status: str) -> dict[s
         "weight": weight,
         "status": status
     }
+
+    return shipments
+
+
+@app.patch("/shipment")
+def patch_shipment(id: int, body: dict[str, Any]):
+    shipment = shipments[id]
+
+    shipment.update(body)
+
     return shipments[id]
 
 
