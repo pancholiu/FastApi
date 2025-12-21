@@ -19,7 +19,7 @@ With this method, if the user input in the url, it is also possible to pass a pa
 
 > url/relative_route?variable=1
 
-## 2. In a POST request
+## 2. In a Http request
 
 > DEFINITIONS
 >
