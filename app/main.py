@@ -112,7 +112,7 @@ def patch_shipment(id: int, body: dict[str, Any]):
 
 @app.delete("/shipment")
 def delete_shipment(id: int) -> dict[str, str]:
-    deleted_shipment = shipments.pop(id)
+    shipments.pop(id)
 
     return {
         "detail": f"Shipment {id} has been deleted"
