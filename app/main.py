@@ -1,8 +1,8 @@
 from typing import Any
 from fastapi import FastAPI, HTTPException, status
 from scalar_fastapi import get_scalar_api_reference
-from .schemas import Shipment
-from enum import Enum
+from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate, ShipmentStatus
+
 
 app = FastAPI()
 
@@ -44,13 +44,9 @@ shipments = {
     }
 }
 
-
-class ShipmentStatus(str, Enum):
-    placed = "placed"
-    in_transit = "in_transit"
-    out_for_delivery = "out_for_delivery"
-    delivered = "delivered"
-
+@app.get("/shipment/{field}")
+def get_shipment_field(field: str, id: int) -> Any:
+    return shipments[id][field]
 
 @app.get("/shipment/latest")
 def get_latest_shipment() -> dict[str, Any]:
@@ -58,8 +54,8 @@ def get_latest_shipment() -> dict[str, Any]:
     return shipments[latest_id]
 
 
-@app.get("/shipment")
-def get_shipment(id: int | None = None) -> dict[str,  Any]:
+@app.get("/shipment", response_model=ShipmentRead)
+def get_shipment(id: int | None = None):
     if not id:
         id = max(shipments.keys())
         return shipments[id]
@@ -74,7 +70,7 @@ def get_shipment(id: int | None = None) -> dict[str,  Any]:
 
 
 @app.post("/shipment")
-def submit_shipment(shipment: Shipment) -> dict[str, Any]:
+def submit_shipment(shipment: ShipmentCreate) -> dict[str, Any]:
 
     new_id = max(shipments.keys()) + 1
     shipments[new_id] = {
@@ -88,13 +84,8 @@ def submit_shipment(shipment: Shipment) -> dict[str, Any]:
     return shipments[new_id]
 
 
-@app.get("/shipment/{field}")
-def get_shipment_field(field: str, id: int) -> Any:
-    return shipments[id][field]
-
-
-@app.put("/shipment")
-def shipment_update(id: int, content: str, weight: float, status: str) -> dict[str, Any]:
+@app.put("/shipment", response_model=ShipmentRead)
+def shipment_put(id: int, content: str, weight: float, status: str):
     shipments[id] = {
         "content": content,
         "weight": weight,
@@ -104,12 +95,10 @@ def shipment_update(id: int, content: str, weight: float, status: str) -> dict[s
     return shipments
 
 
-@app.patch("/shipment")
-def update_shipment(id: int, body: dict[str, ShipmentStatus]):
+@app.patch("/shipment", response_model=ShipmentUpdate)
+def update_shipment(id: int, body: ShipmentUpdate):
     shipment = shipments[id]
-
     shipment.update(body)
-
     return shipments[id]
 
 
