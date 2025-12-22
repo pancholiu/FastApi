@@ -44,9 +44,11 @@ shipments = {
     }
 }
 
+
 @app.get("/shipment/{field}")
 def get_shipment_field(field: str, id: int) -> Any:
     return shipments[id][field]
+
 
 @app.get("/shipment/latest")
 def get_latest_shipment() -> dict[str, Any]:
