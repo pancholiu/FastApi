@@ -1,7 +1,7 @@
 from typing import Any
 from fastapi import FastAPI, HTTPException, status
 from scalar_fastapi import get_scalar_api_reference
-from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate, ShipmentStatus
+from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate
 
 
 app = FastAPI()
