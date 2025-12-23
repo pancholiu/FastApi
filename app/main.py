@@ -1,48 +1,11 @@
-from typing import Any
+from .database import save, shipments
+from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate
 from fastapi import FastAPI, HTTPException, status
 from scalar_fastapi import get_scalar_api_reference
-from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate
+from typing import Any
 
 
 app = FastAPI()
-
-shipments = {
-    12701: {
-        "weight": 1.2,
-        "content": "wooden table",
-        "status": "in transit"
-    },
-    12702: {
-        "weight": 0.8,
-        "content": "glassware set",
-        "status": "fragile - in transit"
-    },
-    12703: {
-        "weight": 2.5,
-        "content": "box of books",
-        "status": "delivered"
-    },
-    12704: {
-        "weight": 4.3,
-        "content": "electronics - laptop",
-        "status": "out for delivery"
-    },
-    12705: {
-        "weight": 0.4,
-        "content": "pair of shoes",
-        "status": "pending"
-    },
-    12706: {
-        "weight": 6.0,
-        "content": "flat-pack furniture",
-        "status": "delayed"
-    },
-    12707: {
-        "weight": 1.1,
-        "content": "children's toys",
-        "status": "cancelled"
-    }
-}
 
 
 @app.get("/shipment/{field}")
@@ -74,15 +37,13 @@ def get_shipment(id: int | None = None):
 @app.post("/shipment")
 def submit_shipment(shipment: ShipmentCreate) -> dict[str, Any]:
 
-    new_id = max(shipments.keys()) + 1
+    new_id = int(max(shipments.keys())) + 1
     shipments[new_id] = {
+        **shipment.model_dump(),
         "id": new_id,
-        "content": shipment.content,
-        "weight": shipment.weight,
-        "destination": shipment.destination,
         "status": "placed"
     }
-
+    save()
     return shipments[new_id]
 
 
@@ -97,10 +58,10 @@ def shipment_put(id: int, content: str, weight: float, status: str):
     return shipments
 
 
-@app.patch("/shipment", response_model=ShipmentUpdate)
+@app.patch("/shipment", response_model=ShipmentRead)
 def update_shipment(id: int, body: ShipmentUpdate):
-    shipment = shipments[id]
-    shipment.update(body)
+    shipments[id].update(body.model_dump(exclude_none=True))
+    save()
     return shipments[id]
 
 
