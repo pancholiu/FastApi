@@ -13,5 +13,12 @@ cursor.execute("""
 """)
 
 
+# 2. Add shipment data
+cursor.execute("""
+    INSERT INTO SHIPMENT
+               VALUES ('12702', 'basalt', 18.7, 'in_transit')
+""")
+connections.commit()
+
 # Close the connection
 connections.close()
