@@ -1,17 +1,17 @@
-import json
+import sqlite3
+# Make the connection
+connections = sqlite3.connect("sqlite.db")
+cursor = connections.cursor()
 
-shipments = {}
+# 1. Create a table
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS shipment (
+        id INTEGER, 
+        content TEXT, 
+        weight REAL, 
+        status TEXT)
+""")
 
-with open("shipments.json") as json_file:
-    data = json.load(json_file)
 
-    for record in data:
-        shipments[record["id"]] = record
-
-
-def save():
-    with open("shipments.json", "w") as json_file:
-        json.dump(
-            list(shipments.values()),
-            json_file
-        )
+# Close the connection
+connections.close()
