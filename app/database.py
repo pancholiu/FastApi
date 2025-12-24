@@ -25,7 +25,12 @@ read_shipment_by_id = """
     SELECT * FROM shipment WHERE id = 12702
 """
 
-cursor.execute(insert_values)
+# 4 Update a shipment
+update_statement = """
+    UPDATE shipment SET status = 'in_transit' WHERE id = '12701'
+"""
+
+cursor.execute(update_statement)
 connections.commit()
 
 # results = cursor.fetchone()
