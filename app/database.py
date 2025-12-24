@@ -26,11 +26,14 @@ read_shipment_by_id = """
 """
 
 # 4 Update a shipment
+id = 12701
+status = "out_for_delivery"
+
 update_statement = """
-    UPDATE shipment SET status = 'in_transit' WHERE id = '12701'
+    UPDATE shipment SET status = :status WHERE id = :id
 """
 
-cursor.execute(update_statement)
+cursor.execute(update_statement, {"status": status, "id": id})
 connections.commit()
 
 # results = cursor.fetchone()
