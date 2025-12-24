@@ -6,7 +6,7 @@ cursor = connections.cursor()
 # 1. Create a table
 create_table = """
     CREATE TABLE IF NOT EXISTS shipment (
-        id INTEGER, 
+        id INTEGER PRIMARY KEY, 
         content TEXT, 
         weight REAL, 
         status TEXT)
@@ -15,7 +15,9 @@ create_table = """
 # 2. Add shipment data
 insert_values = """
     INSERT INTO SHIPMENT
-               VALUES ('12703', 'metal', 15, 'placed')
+               VALUES ('12701', 'TREES', 15, 'placed'),
+               ('12702', 'Copper', 25, 'in_transit'),
+               ('12703', 'Steel', 35, 'placed')
 """
 
 # 3. Read shipment by id
@@ -23,11 +25,12 @@ read_shipment_by_id = """
     SELECT * FROM shipment WHERE id = 12702
 """
 
-cursor.execute(read_shipment_by_id)
+cursor.execute(insert_values)
+connections.commit()
 
-results = cursor.fetchone()
+# results = cursor.fetchone()
 
-print(results)
+# print(results)
 
 
 # Close the connection
