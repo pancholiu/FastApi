@@ -34,7 +34,7 @@ def get_shipment(id: int | None = None):
     return shipments[id]
 
 
-@app.post("/shipment")
+@app.post("/shipment", response_model=None)
 def submit_shipment(shipment: ShipmentCreate) -> dict[str, Any]:
 
     new_id = int(max(shipments.keys())) + 1
