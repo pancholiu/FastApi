@@ -13,14 +13,16 @@ class ShipmentStatus(str, Enum):
     out_for_delivery = "out_for_delivery"
     delivered = "delivered"
 
+
 class BaseShipment(BaseModel):
-    content: str
-    weight: float = Field(le=25)
-    destination: int
+    content: str | None = None
+    weight: float = Field(le=25, default=None)
+    destination: int | None = None
 
 
 class ShipmentRead(BaseShipment):
     status: ShipmentStatus
+
 
 class ShipmentCreate(BaseShipment):
     pass

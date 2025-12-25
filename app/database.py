@@ -6,18 +6,19 @@ from typing import Any
 class Database:
     def __init__(self):
         # Make the connection
-        self.connections = sqlite3.connect("sqlite.db")
+        self.connections = sqlite3.connect(
+            "sqlite.db", check_same_thread=False)
         self.cursor = self.connections.cursor()
-        self.create_table("shipment")
+        self.create_table()
 
-    def create_table(self, name: str):
+    def create_table(self):
         self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS ? (
+            CREATE TABLE IF NOT EXISTS shipment (
                 id INTEGER PRIMARY KEY, 
                 content TEXT, 
                 weight REAL, 
                 status TEXT)
-        """, (name,))
+        """)
 
     def create(self, shipment: ShipmentCreate) -> int:
         # Find a new id
@@ -35,6 +36,8 @@ class Database:
 
             "status": "placed"
         })
+
+        self.connections.commit()
 
         return new_id
 
@@ -56,7 +59,7 @@ class Database:
             "status": row[3]
         } if row else None
 
-    def update(self, shipment: ShipmentUpdate) -> dict[str, Any]:
+    def update(self, id: int, shipment: ShipmentUpdate) -> dict[str, Any]:
         self.cursor.execute("""
             UPDATE shipment SET status = :status
             WHERE id = :id        
