@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
 from sqlmodel import SQLModel
-from .models import Shipment
 
 # To create a connection with the database
 engine = create_engine(
@@ -9,4 +8,7 @@ engine = create_engine(
     connect_args={"check_same_thread": False}
 )
 
-SQLModel.metadata.create_all(bind=engine)
+
+def create_db_tables():
+    from .models import Shipment
+    SQLModel.metadata.create_all(bind=engine)

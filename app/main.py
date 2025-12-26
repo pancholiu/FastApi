@@ -1,11 +1,12 @@
-from .database import Database
-from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, status
 from scalar_fastapi import get_scalar_api_reference
 from typing import Any
 
+from .database import Database
+from .schemas import ShipmentRead, ShipmentCreate, ShipmentUpdate
+from app.database.session import create_db_tables
 
-app = FastAPI()
 db = Database()
 
 
@@ -26,6 +27,14 @@ db = Database()
 # def get_latest_shipment() -> dict[str, Any]:
 #     latest_id = max(shipments.keys())
 #     return shipments[latest_id]
+
+@asynccontextmanager
+async def lifespan_handler(app: FastAPI):
+    create_db_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan_handler)
 
 
 @app.get("/shipment")
