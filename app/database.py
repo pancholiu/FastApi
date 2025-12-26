@@ -1,15 +1,16 @@
 import sqlite3
-from .schemas import ShipmentCreate, ShipmentUpdate
+from app.schemas import ShipmentCreate, ShipmentUpdate
 from typing import Any
+# Use as decorator to replace enter and exit methods
+from contextlib import contextmanager
 
 
 class Database:
-    def __init__(self):
+    def connect_to_db(self):
         # Make the connection
         self.connections = sqlite3.connect(
             "sqlite.db", check_same_thread=False)
         self.cursor = self.connections.cursor()
-        self.create_table()
 
     def create_table(self):
         self.cursor.execute("""
@@ -41,7 +42,7 @@ class Database:
 
         return new_id
 
-    def get(self, id: int) -> dict[str, Any] | None:
+    def get(self, id: int | None = None) -> dict[str, Any] | None:
         self.cursor.execute("""
             SELECT * FROM shipment
             WHERE id = ? 
@@ -59,7 +60,7 @@ class Database:
             "status": row[3]
         } if row else None
 
-    def update(self, id: int, shipment: ShipmentUpdate) -> dict[str, Any]:
+    def update(self, id: int, shipment: ShipmentUpdate) -> dict[str, Any] | None:
         self.cursor.execute("""
             UPDATE shipment SET status = :status
             WHERE id = :id        
@@ -81,3 +82,30 @@ class Database:
 
     def close(self):
         self.connections.close()
+
+    # # This method replaces __init__
+    # def __enter__(self):
+    #     print("entering")
+    #     self.connect_to_db()
+    #     self.create_table()
+    #     return self  # Requiered to make accessible the methods of the class
+
+    # def __exit__(self, *arg):
+    #     print("existing")
+    #     self.close()
+
+
+@contextmanager
+def managed_db():
+    db = Database()
+    db.connect_to_db()
+    db.create_table()
+
+    yield db
+
+    db.close()
+
+
+with managed_db() as db:
+    print(db.get(12701))
+    print(db.get(12702))
