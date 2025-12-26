@@ -10,7 +10,7 @@ class ShipmentStatus(str, Enum):
     delivered = "delivered"
 
 
-class Shipment(SQLModel):
+class Shipment(SQLModel, table=True):
     __table__ = "shipment"
 
     id: int = Field(primary_key=True)
