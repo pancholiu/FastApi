@@ -1,10 +1,11 @@
-from .models import Shipment
+from fastapi import Depends
 from sqlalchemy import create_engine
 from sqlmodel import SQLModel, Session
+from typing import Annotated
 
 # To create a connection with the database
 engine = create_engine(
-    url="sqlite:///../sqlite.db",
+    url="sqlite:///sqlite.db",
     echo=True,
     connect_args={"check_same_thread": False}
 )
@@ -17,3 +18,6 @@ def create_db_tables():
 def get_session():
     with Session(bind=engine) as session:
         yield session
+
+
+SessionDep = Annotated[Session, Depends(get_session)]

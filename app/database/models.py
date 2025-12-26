@@ -1,5 +1,6 @@
 # sqlmodel is an extension of Pydantic with some extra configurations
-from sqlmodel import SQLModel, Field, DateTime
+from sqlmodel import SQLModel, Field
+from datetime import datetime
 from enum import Enum
 
 
@@ -11,11 +12,11 @@ class ShipmentStatus(str, Enum):
 
 
 class Shipment(SQLModel, table=True):
-    __table__ = "shipment"
+    __tablename__ = "shipment"
 
     id: int = Field(default=None, primary_key=True)
     content: str
     weight: float = Field(le=25)
     destination: int
     status: ShipmentStatus
-    estimated_delivery: DateTime
+    estimated_delivery: datetime
