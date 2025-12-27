@@ -10,23 +10,6 @@ from app.database.session import SessionDep, create_db_tables
 from .database.models import Shipment, ShipmentStatus
 from .schemas import ShipmentCreate, ShipmentRead, ShipmentUpdate
 
-# @app.get("/shipment", response_model=ShipmentRead)
-# def get_shipment_field(field: str, id: int) -> Any:
-#     shipment = db.get(id)
-
-#     if shipment is None:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail="Given id doesn't exist"
-#         )
-
-#     return shipment
-
-
-# @app.get("/shipment/latest")
-# def get_latest_shipment() -> dict[str, Any]:
-#     latest_id = max(shipments.keys())
-#     return shipments[latest_id]
 
 @asynccontextmanager
 async def lifespan_handler(app: FastAPI):
@@ -62,11 +45,6 @@ def submit_shipment(shipment: ShipmentCreate, session: SessionDep) -> dict[str, 
     session.refresh(new_shipment)
 
     return {"id": new_shipment.id}
-
-
-@app.put("/shipment", response_model=ShipmentRead)
-def shipment_put(id: int, shipment: ShipmentUpdate):
-    return db.update(id, shipment)
 
 
 @app.patch("/shipment", response_model=ShipmentRead)

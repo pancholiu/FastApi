@@ -18,6 +18,7 @@ class Database:
                 id INTEGER PRIMARY KEY, 
                 content TEXT, 
                 weight REAL, 
+                destination TEXT,
                 status TEXT)
         """)
 
