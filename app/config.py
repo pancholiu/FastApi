@@ -7,6 +7,7 @@ class DatabaseSetting(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
+    POSTGRES_URL: str
 
     model_config = SettingsConfigDict(
         env_file="./.env",
