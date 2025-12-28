@@ -7,8 +7,8 @@ from scalar_fastapi import get_scalar_api_reference
 
 from app.database.session import SessionDep, create_db_tables
 
-from .database.models import Shipment, ShipmentStatus
-from .schemas import ShipmentCreate, ShipmentRead, ShipmentUpdate
+from .database.models import ShipmentStatus
+from .schemas import ShipmentCreate, Shipment, ShipmentUpdate
 
 
 @asynccontextmanager
@@ -20,7 +20,7 @@ async def lifespan_handler(app: FastAPI):
 app = FastAPI(lifespan=lifespan_handler)
 
 
-@app.get("/shipment", response_model=ShipmentRead)
+@app.get("/shipment", response_model=Shipment)
 def get_shipment(id: int, session: SessionDep):
     shipment = session.get(Shipment, id)
 
@@ -47,7 +47,7 @@ def submit_shipment(shipment: ShipmentCreate, session: SessionDep) -> dict[str, 
     return {"id": new_shipment.id}
 
 
-@app.patch("/shipment", response_model=ShipmentRead)
+@app.patch("/shipment", response_model=Shipment)
 def update_shipment(id: int, shipment_update: ShipmentUpdate, session: SessionDep):
     update = shipment_update.model_dump(exclude_none=True)
 
