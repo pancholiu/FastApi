@@ -12,9 +12,6 @@ async def endpoint(route: str) -> str:
     return route
 
 
-endpoint("")
-
-
 async def server():
     tests = {
         "GET /shipment?id=1",
@@ -24,12 +21,8 @@ async def server():
 
     start = time.perf_counter()
 
-    requests = [asyncio.create_task(endpoint(route)) for route in tests]
-
-    done, pending = await asyncio.wait(requests)
-
-    for task_done in done:
-        print("Result:", task_done.result())
+    async with asyncio.TaskGroup() as task_group:
+        [task_group.create_task(endpoint(route)) for route in tests]
 
     end = time.perf_counter()
 
