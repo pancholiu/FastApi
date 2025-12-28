@@ -1,6 +1,4 @@
 # sqlmodel is an extension of Pydantic with some extra configurations
-from sqlmodel import SQLModel, Field
-from datetime import datetime
 from enum import Enum
 
 
